@@ -1,17 +1,17 @@
 import 'dart:io';
-
-import 'package:flavor_memo_app/domain/repository/post_repository.dart';
+import 'package:flavor_memo_app/presentation/create_post/create_post_action.dart';
+import 'package:flavor_memo_app/presentation/create_post/create_post_state.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:image_picker/image_picker.dart';
-
-import '../../domain/model/post.dart';
-import '../../domain/model/user.dart';
 
 class CreatePostScreen extends StatefulWidget {
-  final PostRepository postRepository;
+  final CreatePostState state;
+  final Function(CreatePostAction) onAction;
 
-  const CreatePostScreen({super.key, required this.postRepository});
+  const CreatePostScreen({
+    super.key,
+    required this.state,
+    required this.onAction,
+  });
 
   @override
   State<CreatePostScreen> createState() => _CreatePostScreenState();
@@ -19,50 +19,11 @@ class CreatePostScreen extends StatefulWidget {
 
 class _CreatePostScreenState extends State<CreatePostScreen> {
   final _contentController = TextEditingController();
-  XFile? _pickedImage;
-  final _picker = ImagePicker();
-  bool _isUploading = false;
 
-  Future<void> _pickImage() async {
-    final image = await _picker.pickImage(source: ImageSource.gallery);
-    if (image != null) {
-      setState(() => _pickedImage = image);
-    }
-  }
-
-  void _uploadPost() async {
-    if (_contentController.text.isEmpty) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text('내용을 입력해주세요.')));
-      return;
-    }
-
-    setState(() => _isUploading = true);
-
-    final newPost = Post(
-      id: DateTime.now().millisecondsSinceEpoch.toString(),
-      content: _contentController.text,
-      // 실제 앱에서는 이미지를 서버에 올리고 URL을 받아오겠지만,
-      // 여기서는 데모를 위해 로컬 경로 또는 랜덤 이미지를 사용합니다.
-      imageUrl: _pickedImage?.path != null
-          ? 'https://picsum.photos/id/${DateTime.now().second}/600/600'
-          : null,
-      user: const User(
-        id: '1',
-        email: 'test@test.com',
-        name: '생존코딩 오준석',
-        profileImageUrl: 'https://picsum.photos/id/64/200/200',
-      ),
-      createdAt: DateTime.now(),
-    );
-
-    await widget.postRepository.addPost(newPost);
-
-    if (mounted) {
-      setState(() => _isUploading = false);
-      context.pop();
-    }
+  @override
+  void dispose() {
+    _contentController.dispose();
+    super.dispose();
   }
 
   @override
@@ -72,8 +33,12 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
         title: const Text('새 게시물'),
         actions: [
           TextButton(
-            onPressed: _isUploading ? null : _uploadPost,
-            child: _isUploading
+            onPressed: widget.state.isUploading
+                ? null
+                : () => widget.onAction(
+                    CreatePostAction.onUpload(_contentController.text),
+                  ),
+            child: widget.state.isUploading
                 ? const CircularProgressIndicator(strokeWidth: 2)
                 : const Text(
                     '공유',
@@ -88,7 +53,8 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
           child: Column(
             children: [
               GestureDetector(
-                onTap: _pickImage,
+                onTap: () =>
+                    widget.onAction(const CreatePostAction.onPickImage()),
                 child: Container(
                   height: 300,
                   width: double.infinity,
@@ -96,7 +62,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                     color: Colors.grey[200],
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child: _pickedImage == null
+                  child: widget.state.imagePath == null
                       ? const Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -115,7 +81,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                       : ClipRRect(
                           borderRadius: BorderRadius.circular(12),
                           child: Image.file(
-                            File(_pickedImage!.path),
+                            File(widget.state.imagePath!),
                             fit: BoxFit.cover,
                           ),
                         ),
