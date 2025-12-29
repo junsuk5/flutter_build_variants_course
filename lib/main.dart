@@ -1,13 +1,14 @@
 import 'package:flavor_memo_app/core/config/flavor_config.dart';
 import 'package:flavor_memo_app/my_app.dart';
+import 'package:flavor_memo_app/presentation/feed/feed_root.dart';
+import 'package:flavor_memo_app/presentation/feed/feed_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import 'data/repository/auth_repository_impl.dart';
 import 'data/repository/post_repository_impl.dart';
-import 'presentation/screens/create_post_screen.dart';
-import 'presentation/screens/feed_screen.dart';
-import 'presentation/screens/login_screen.dart';
+import 'presentation/create_post/create_post_screen.dart';
+import 'presentation/login/login_screen.dart';
 
 void main() {
   FlavorConfig.appFlavor = Flavor.prod;
@@ -27,7 +28,8 @@ void main() {
       ),
       GoRoute(
         path: '/feed',
-        builder: (context, state) => FeedScreen(postRepository: postRepository),
+        builder: (context, state) =>
+            FeedRoot(viewModel: FeedViewModel(postRepository: postRepository)),
       ),
       GoRoute(
         path: '/create-post',
