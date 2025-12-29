@@ -2,19 +2,19 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "flavor_memo_app (dev)",
+      "name": "dev",
       "request": "launch",
       "type": "dart",
       "program": "lib/main_dev.dart"
     },
     {
-      "name": "flavor_memo_app (staging)",
+      "name": "staging",
       "request": "launch",
       "type": "dart",
       "program": "lib/main_staging.dart"
     },
     {
-      "name": "flavor_memo_app (prod)",
+      "name": "prod",
       "request": "launch",
       "type": "dart",
       "program": "lib/main.dart"
