@@ -6,7 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 class LoginScreen extends StatefulWidget {
   final AuthRepository authRepository;
 
-  const LoginScreen({super.key, required this.authRepository});
+const LoginScreen({super.key, required this.authRepository});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();

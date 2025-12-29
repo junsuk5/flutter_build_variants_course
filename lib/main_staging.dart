@@ -10,7 +10,7 @@ import 'presentation/screens/feed_screen.dart';
 import 'presentation/screens/login_screen.dart';
 
 void main() {
-  FlavorConfig.appFlavor = Flavor.prod;
+  FlavorConfig.appFlavor = Flavor.staging;
 
   // 앱 전역에서 사용할 저장소 인스턴스 (단순화를 위해 싱글톤처럼 사용하거나
   // 실제 앱에서는 Provider 등을 사용하겠지만 여기서는 수동 주입)
