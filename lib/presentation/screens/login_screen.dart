@@ -1,12 +1,12 @@
+import 'package:flavor_memo_app/domain/repository/auth_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import '../../data/repositories/auth_repository.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class LoginScreen extends StatefulWidget {
   final AuthRepository authRepository;
 
-const LoginScreen({super.key, required this.authRepository});
+  const LoginScreen({super.key, required this.authRepository});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();

@@ -1,12 +1,9 @@
-import '../models/post.dart';
-import '../models/user.dart';
+import 'package:flavor_memo_app/domain/repository/post_repository.dart';
 
-abstract class PostRepository {
-  Future<List<Post>> getPosts();
-  Future<void> addPost(Post post);
-}
+import '../../domain/model/post.dart';
+import '../../domain/model/user.dart';
 
-class MockPostRepository implements PostRepository {
+class MockPostRepositoryImpl implements PostRepository {
   final List<Post> _posts = [
     Post(
       id: '1',

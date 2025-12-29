@@ -1,10 +1,10 @@
-import '../models/user.dart';
+import 'package:flavor_memo_app/domain/repository/auth_repository.dart';
 
-abstract class AuthRepository {
-  Future<User?> login(String email, String password);
-}
+import '../../domain/model/user.dart';
 
-class MockAuthRepository implements AuthRepository {
+
+
+class MockAuthRepositoryImpl implements AuthRepository {
   @override
   Future<User?> login(String email, String password) async {
     // 로그인 시뮬레이션 (1초 대기)

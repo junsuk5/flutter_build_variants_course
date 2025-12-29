@@ -1,10 +1,12 @@
 import 'dart:io';
+
+import 'package:flavor_memo_app/domain/repository/post_repository.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:go_router/go_router.dart';
-import '../../data/models/post.dart';
-import '../../data/models/user.dart';
-import '../../data/repositories/post_repository.dart';
+import 'package:image_picker/image_picker.dart';
+
+import '../../domain/model/post.dart';
+import '../../domain/model/user.dart';
 
 class CreatePostScreen extends StatefulWidget {
   final PostRepository postRepository;

@@ -1,9 +1,10 @@
+import 'package:flavor_memo_app/domain/repository/post_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import '../../data/models/post.dart';
-import '../../data/repositories/post_repository.dart';
-import '../widgets/post_card.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import '../../domain/model/post.dart';
+import '../component/post_card.dart';
 
 class FeedScreen extends StatefulWidget {
   final PostRepository postRepository;

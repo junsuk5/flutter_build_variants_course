@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flavor_memo_app/main.dart';
 import 'package:go_router/go_router.dart';
-import 'package:flavor_memo_app/data/repositories/auth_repository.dart';
+import 'package:flavor_memo_app/data/repository/auth_repository_impl.dart';
 
 void main() {
   testWidgets('SNS App Login Screen render test', (WidgetTester tester) async {
@@ -10,7 +10,7 @@ void main() {
         GoRoute(
           path: '/',
           builder: (context, state) =>
-              LoginScreen(authRepository: MockAuthRepository()),
+              LoginScreen(authRepository: MockAuthRepositoryImpl()),
         ),
       ],
     );

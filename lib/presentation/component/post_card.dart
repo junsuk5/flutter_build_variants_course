@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../data/models/post.dart';
+import '../../domain/model/post.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class PostCard extends StatelessWidget {
