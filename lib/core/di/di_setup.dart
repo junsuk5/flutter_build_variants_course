@@ -1,6 +1,6 @@
 import 'package:flavor_memo_app/core/config/flavor_config.dart';
-import 'package:flavor_memo_app/data/repository/auth_repository_impl.dart';
-import 'package:flavor_memo_app/data/repository/post_repository_impl.dart';
+import 'package:flavor_memo_app/data/repository/mock_auth_repository_impl.dart';
+import 'package:flavor_memo_app/data/repository/mock_post_repository_impl.dart';
 import 'package:flavor_memo_app/domain/repository/auth_repository.dart';
 import 'package:flavor_memo_app/domain/repository/post_repository.dart';
 import 'package:flavor_memo_app/presentation/create_post/create_post_view_model.dart';
