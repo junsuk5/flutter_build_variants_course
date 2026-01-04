@@ -2,8 +2,6 @@ import 'package:flavor_memo_app/domain/repository/auth_repository.dart';
 
 import '../../domain/model/user.dart';
 
-
-
 class MockAuthRepositoryImpl implements AuthRepository {
   @override
   Future<User?> login(String email, String password) async {

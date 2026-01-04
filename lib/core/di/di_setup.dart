@@ -1,4 +1,10 @@
+import 'dart:io';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flavor_memo_app/core/config/flavor_config.dart';
+import 'package:flavor_memo_app/data/repository/firebase_auth_repository_impl.dart';
+import 'package:flavor_memo_app/data/repository/firestore_post_repository_impl.dart';
 import 'package:flavor_memo_app/data/repository/mock_auth_repository_impl.dart';
 import 'package:flavor_memo_app/data/repository/mock_post_repository_impl.dart';
 import 'package:flavor_memo_app/domain/repository/auth_repository.dart';
@@ -25,19 +31,23 @@ void _setupRepositories() {
       );
       break;
     case Flavor.staging:
+      final host = Platform.isAndroid ? '10.0.2.2' : 'localhost';
+      FirebaseAuth.instance.useAuthEmulator(host, 9099);
+      FirebaseFirestore.instance.useFirestoreEmulator(host, 8080);
+
       getIt.registerLazySingleton<AuthRepository>(
-        () => MockAuthRepositoryImpl(),
+        () => FirebaseAuthRepositoryImpl(FirebaseAuth.instance),
       );
       getIt.registerLazySingleton<PostRepository>(
-        () => MockPostRepositoryImpl(),
+        () => FirestorePostRepositoryImpl(FirebaseFirestore.instance),
       );
       break;
     case Flavor.prod:
       getIt.registerLazySingleton<AuthRepository>(
-        () => MockAuthRepositoryImpl(),
+        () => FirebaseAuthRepositoryImpl(FirebaseAuth.instance),
       );
       getIt.registerLazySingleton<PostRepository>(
-        () => MockPostRepositoryImpl(),
+        () => FirestorePostRepositoryImpl(FirebaseFirestore.instance),
       );
       break;
     default:
