@@ -9,15 +9,21 @@ class FirebaseAuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<User?> login(String email, String password) async {
-    final result = await _auth.signInWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
-    return User(
-      id: result.user!.uid,
-      email: result.user!.email!,
-      name: result.user!.displayName!,
-      profileImageUrl: result.user!.photoURL!,
-    );
+    try {
+      final result = await _auth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      return User(
+        id: result.user!.uid,
+        email: result.user!.email!,
+        name: result.user!.displayName ?? '',
+        profileImageUrl: result.user!.photoURL ?? '',
+      );
+    } on FirebaseAuthException {
+      return null;
+    } catch (e) {
+      return null;
+    }
   }
 }
