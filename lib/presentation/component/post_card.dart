@@ -17,9 +17,28 @@ class PostCard extends StatelessWidget {
           padding: const EdgeInsets.all(12.0),
           child: Row(
             children: [
-              CircleAvatar(
-                backgroundImage: NetworkImage(post.user.profileImageUrl),
-                radius: 18,
+              ClipRRect(
+                borderRadius: BorderRadius.circular(18),
+                child: Image.network(
+                  post.user.profileImageUrl,
+                  width: 36,
+                  height: 36,
+                  fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) => Container(
+                    width: 36,
+                    height: 36,
+                    color: Colors.grey[300],
+                    child: const Icon(Icons.person, size: 20),
+                  ),
+                  loadingBuilder: (context, child, loadingProgress) {
+                    if (loadingProgress == null) return child;
+                    return Container(
+                      width: 36,
+                      height: 36,
+                      color: Colors.grey[200],
+                    );
+                  },
+                ),
               ),
               const SizedBox(width: 10),
               Text(
@@ -41,8 +60,27 @@ class PostCard extends StatelessWidget {
             child: Image.network(
               post.imageUrl!,
               fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) => const Center(
-                child: Icon(Icons.broken_image, size: 50, color: Colors.grey),
+              loadingBuilder: (context, child, loadingProgress) {
+                if (loadingProgress == null) return child;
+                return Center(
+                  child: CircularProgressIndicator(
+                    value: loadingProgress.expectedTotalBytes != null
+                        ? loadingProgress.cumulativeBytesLoaded /
+                              loadingProgress.expectedTotalBytes!
+                        : null,
+                  ),
+                );
+              },
+              errorBuilder: (context, error, stackTrace) => Container(
+                color: Colors.grey[100],
+                child: const Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.broken_image, size: 50, color: Colors.grey),
+                    SizedBox(height: 8),
+                    Text('이미지 로드 실패', style: TextStyle(color: Colors.grey)),
+                  ],
+                ),
               ),
             ),
           )

@@ -10,7 +10,7 @@ class FirestorePostRepositoryImpl implements PostRepository {
   @override
   Future<List<Post>> getPosts() async {
     final querySnapshot = await _firestore
-        .collection('posts')
+        .collection('Post')
         .orderBy('createdAt', descending: true)
         .get();
     return querySnapshot.docs
